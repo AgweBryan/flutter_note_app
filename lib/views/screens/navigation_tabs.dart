@@ -30,7 +30,7 @@ class _NavigationTabsState extends State<NavigationTabs> {
         opacity: .2,
         currentIndex: pageIndex,
         onTap: changePage,
-        backgroundColor: bottomNavbarBckColor,
+        backgroundColor: navBarBckColor,
         elevation: 8,
         fabLocation: BubbleBottomBarFabLocation.end,
         hasNotch: true,
