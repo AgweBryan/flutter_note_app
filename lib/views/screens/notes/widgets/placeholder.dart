@@ -7,18 +7,21 @@ class PlaceHolder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        child: Center(
-      child: SizedBox(
+      child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset('assets/placeholder.gif'),
+            SizedBox(
+              height: 30,
+            ),
+            Image.asset('assets/placeholder.png'),
             CustomText(
                 text: "No notes yet!\nClick add button to add a note",
-                fontSize: 13),
+                fontSize: 19),
           ],
         ),
       ),
-    ));
+    );
   }
 }
