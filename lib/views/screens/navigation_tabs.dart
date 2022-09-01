@@ -1,7 +1,9 @@
+import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_note_app/utils/colors.dart';
 import 'package:flutter_note_app/utils/screens.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:flutter_note_app/views/screens/addNote/add_note_screen.dart';
+import 'package:get/get.dart';
 
 class NavigationTabs extends StatefulWidget {
   const NavigationTabs({Key? key}) : super(key: key);
@@ -12,51 +14,84 @@ class NavigationTabs extends StatefulWidget {
 
 class _NavigationTabsState extends State<NavigationTabs> {
   int pageIndex = 0;
+
+  void changePage(int? currentIndex) {
+    setState(() {
+      pageIndex = currentIndex!;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // backgroundColor: Colors.black,
-      bottomNavigationBar: Container(
-        color: Colors.black.withOpacity(.5),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
-          child: GNav(
-            rippleColor: Colors.grey[300]!,
-            gap: 8,
-            activeColor: Colors.white,
-            iconSize: 26,
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-            duration: Duration(milliseconds: 1000),
-            tabBackgroundColor: Colors.black,
-            color: Colors.black,
-            tabs: [
-              GButton(
-                icon: Icons.home,
-                text: 'Home',
+
+      bottomNavigationBar: BubbleBottomBar(
+        opacity: .2,
+        currentIndex: pageIndex,
+        onTap: changePage,
+        backgroundColor: bottomNavbarBckColor,
+        elevation: 8,
+        fabLocation: BubbleBottomBarFabLocation.end,
+        hasNotch: true,
+        hasInk: true,
+        inkColor: Colors.black12,
+        items: <BubbleBottomBarItem>[
+          BubbleBottomBarItem(
+              backgroundColor: primaryColor,
+              icon: Icon(
+                Icons.dashboard_rounded,
+                color: titleColor,
               ),
-              GButton(
-                icon: Icons.star_border,
-                text: 'Starred',
+              activeIcon: Icon(
+                Icons.dashboard_rounded,
+                color: primaryColor,
               ),
-              GButton(
-                icon: Icons.search,
-                text: 'Search',
+              title: Text("Home")),
+          BubbleBottomBarItem(
+              backgroundColor: Colors.orangeAccent,
+              icon: Icon(
+                Icons.category_rounded,
+                color: titleColor,
               ),
-              GButton(
-                icon: Icons.note_add_rounded,
-                text: 'New note',
+              activeIcon: Icon(
+                Icons.category_rounded,
+                color: Colors.orangeAccent,
               ),
-            ],
-            selectedIndex: pageIndex,
-            onTabChange: (index) {
-              setState(() {
-                pageIndex = index;
-              });
-            },
-          ),
-        ),
+              title: Text("Categories")),
+          BubbleBottomBarItem(
+              backgroundColor: Colors.lightBlue,
+              icon: Icon(
+                Icons.search_rounded,
+                color: titleColor,
+              ),
+              activeIcon: Icon(
+                Icons.search_rounded,
+                color: Colors.lightBlue,
+              ),
+              title: Text("Search")),
+          BubbleBottomBarItem(
+              backgroundColor: Colors.pinkAccent,
+              icon: Icon(
+                Icons.calendar_today_rounded,
+                color: titleColor,
+              ),
+              activeIcon: Icon(
+                Icons.calendar_today_rounded,
+                color: Colors.pinkAccent,
+              ),
+              title: Text("Calender"))
+        ],
       ),
       body: screens[pageIndex],
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.to(() => AddNoteScreen());
+        },
+        backgroundColor: primaryColor,
+        child: Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
     );
   }
 }

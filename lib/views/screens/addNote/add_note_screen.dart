@@ -6,12 +6,38 @@ class AddNoteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
-        itemCount: 100,
-        itemBuilder: (context, index) => ListTile(
-          title: Text('item $index'),
-        ),
-      ),
+        appBar: _appBar(),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+          child: Column(
+            children: [
+              TextField(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: "Note Title",
+                ),
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Expanded(
+                  child: TextField(
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+                decoration: InputDecoration(
+                    border: InputBorder.none, hintText: "your note..."),
+              ))
+            ],
+          ),
+        ));
+  }
+
+  _appBar() {
+    return AppBar(
+      title: const Text("Add new note"),
+      backgroundColor: Colors.transparent,
+      elevation: 0,
     );
   }
 }
