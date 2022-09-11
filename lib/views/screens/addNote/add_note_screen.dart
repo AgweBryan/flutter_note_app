@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_note_app/controllers/add_note_controller.dart';
 import 'package:flutter_note_app/utils/colors.dart';
 import 'package:flutter_note_app/utils/custom_text.dart';
 import 'package:flutter_note_app/views/screens/addNote/widgets/bottomsheet_item.dart';
@@ -6,8 +7,37 @@ import 'package:flutter_note_app/views/screens/addNote/widgets/color_palette.dar
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-class AddNoteScreen extends StatelessWidget {
-  const AddNoteScreen({Key? key}) : super(key: key);
+class AddNoteScreen extends StatefulWidget {
+  AddNoteScreen({Key? key}) : super(key: key);
+
+  @override
+  State<AddNoteScreen> createState() => _AddNoteScreenState();
+}
+
+class _AddNoteScreenState extends State<AddNoteScreen> {
+  final AddNoteController _addNoteController = Get.put(AddNoteController());
+
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _noteController = TextEditingController();
+  double noteFontSize = 16;
+  updateNoteFontSize() {
+    if (noteFontSize > 26) {
+      setState(() {
+        noteFontSize = 16;
+      });
+    } else {
+      setState(() {
+        noteFontSize += 2;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _titleController.dispose();
+    _noteController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +110,7 @@ class AddNoteScreen extends StatelessWidget {
               child: TextField(
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
+                style: TextStyle(fontSize: noteFontSize),
                 decoration: InputDecoration(
                     border: InputBorder.none, hintText: "your note..."),
               ),
@@ -97,7 +128,7 @@ class AddNoteScreen extends StatelessWidget {
       elevation: 0,
       actions: [
         IconButton(
-          onPressed: () {},
+          onPressed: () => updateNoteFontSize(),
           icon: Icon(Icons.format_size_rounded),
         ),
         IconButton(
@@ -143,6 +174,7 @@ class AddNoteScreen extends StatelessWidget {
               ),
             ),
             BottomsheetItem(
+              onTap: () {},
               icon: Icon(
                 Icons.delete_outline_rounded,
                 color: titleColor,
@@ -151,6 +183,7 @@ class AddNoteScreen extends StatelessWidget {
               label: "Delete note",
             ),
             BottomsheetItem(
+              onTap: () {},
               icon: Icon(
                 Icons.share_outlined,
                 color: titleColor,
@@ -159,6 +192,9 @@ class AddNoteScreen extends StatelessWidget {
               label: "Share note",
             ),
             BottomsheetItem(
+              onTap: () {
+                _addNoteController.updateIsPinned();
+              },
               icon: Icon(
                 Icons.push_pin_outlined,
                 color: titleColor,
@@ -167,6 +203,9 @@ class AddNoteScreen extends StatelessWidget {
               label: "Pin note",
             ),
             BottomsheetItem(
+              onTap: () {
+                _addNoteController.updateIsFavorite();
+              },
               icon: Icon(
                 Icons.star_border_rounded,
                 color: titleColor,
@@ -175,6 +214,9 @@ class AddNoteScreen extends StatelessWidget {
               label: "Add to favorites",
             ),
             BottomsheetItem(
+              onTap: () {
+                _addNoteController.updateIsArchived();
+              },
               icon: Icon(
                 Icons.archive_outlined,
                 color: titleColor,

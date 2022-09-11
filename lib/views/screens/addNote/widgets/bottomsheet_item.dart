@@ -6,12 +6,16 @@ class BottomsheetItem extends StatelessWidget {
 
   final String label;
 
-  const BottomsheetItem({Key? key, required this.icon, required this.label})
+  final Function() onTap;
+
+  const BottomsheetItem(
+      {Key? key, required this.icon, required this.label, required this.onTap})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: onTap,
       leading: icon,
       title: CustomText(
         fontSize: 20,
