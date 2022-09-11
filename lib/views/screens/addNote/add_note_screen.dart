@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_note_app/utils/colors.dart';
 import 'package:flutter_note_app/utils/custom_text.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class AddNoteScreen extends StatelessWidget {
@@ -9,7 +10,7 @@ class AddNoteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _appBar(),
+      appBar: _appBar(context),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
         child: Column(
@@ -87,11 +88,62 @@ class AddNoteScreen extends StatelessWidget {
     );
   }
 
-  _appBar() {
+  _appBar(BuildContext context) {
     return AppBar(
       title: const Text("Add new note"),
       backgroundColor: Colors.transparent,
       elevation: 0,
+      actions: [
+        IconButton(
+          onPressed: () {},
+          icon: Icon(Icons.format_size_rounded),
+        ),
+        IconButton(
+          onPressed: () {},
+          icon: Icon(
+            Icons.done,
+            color: Colors.green,
+          ),
+        ),
+        IconButton(
+          onPressed: () => _showBottomSheet(context),
+          icon: Icon(Icons.more_vert_rounded),
+        )
+      ],
+    );
+  }
+
+  _showBottomSheet(BuildContext context) {
+    return Get.bottomSheet(
+      Container(
+        padding: EdgeInsets.only(top: 10, right: 10, bottom: 5, left: 10),
+        height: MediaQuery.of(context).size.height * .4,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: navBarBckColor,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              color: Colors.brown,
+              height: 50,
+              width: double.infinity,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: noteColor.length,
+                itemBuilder: (context, i) => CircleAvatar(
+                  backgroundColor: noteColor[i],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

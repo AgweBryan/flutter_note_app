@@ -67,7 +67,7 @@ class _NotesScreenState extends State<NotesScreen> {
                 width: double.infinity,
                 height: quikNoteHeight,
                 decoration: BoxDecoration(
-                  color: Color(0xFF3e3e3e),
+                  color: navBarBckColor,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: TextField(
