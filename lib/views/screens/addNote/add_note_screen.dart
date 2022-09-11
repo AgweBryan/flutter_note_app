@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_note_app/utils/colors.dart';
 import 'package:flutter_note_app/utils/custom_text.dart';
+import 'package:flutter_note_app/views/screens/addNote/widgets/color_palette.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -118,7 +119,7 @@ class AddNoteScreen extends StatelessWidget {
       Container(
         padding: EdgeInsets.only(top: 10, right: 10, bottom: 5, left: 10),
         height: MediaQuery.of(context).size.height * .4,
-        width: double.infinity,
+        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           color: navBarBckColor,
           borderRadius: BorderRadius.only(
@@ -126,18 +127,18 @@ class AddNoteScreen extends StatelessWidget {
             topRight: Radius.circular(30),
           ),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Wrap(
           children: [
             Container(
-              color: Colors.brown,
+              margin: EdgeInsets.symmetric(vertical: 10),
+              padding: EdgeInsets.only(right: 5),
               height: 50,
               width: double.infinity,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: noteColor.length,
-                itemBuilder: (context, i) => CircleAvatar(
-                  backgroundColor: noteColor[i],
+                itemBuilder: (context, i) => ColorPalette(
+                  index: i,
                 ),
               ),
             ),
