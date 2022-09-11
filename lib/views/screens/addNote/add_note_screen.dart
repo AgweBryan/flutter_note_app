@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_note_app/utils/colors.dart';
 import 'package:flutter_note_app/utils/custom_text.dart';
+import 'package:flutter_note_app/views/screens/addNote/widgets/bottomsheet_item.dart';
 import 'package:flutter_note_app/views/screens/addNote/widgets/color_palette.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -118,7 +119,6 @@ class AddNoteScreen extends StatelessWidget {
     return Get.bottomSheet(
       Container(
         padding: EdgeInsets.only(top: 10, right: 10, bottom: 5, left: 10),
-        height: MediaQuery.of(context).size.height * .4,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           color: navBarBckColor,
@@ -141,6 +141,46 @@ class AddNoteScreen extends StatelessWidget {
                   index: i,
                 ),
               ),
+            ),
+            BottomsheetItem(
+              icon: Icon(
+                Icons.delete_outline_rounded,
+                color: titleColor,
+                size: 30,
+              ),
+              label: "Delete note",
+            ),
+            BottomsheetItem(
+              icon: Icon(
+                Icons.share_outlined,
+                color: titleColor,
+                size: 30,
+              ),
+              label: "Share note",
+            ),
+            BottomsheetItem(
+              icon: Icon(
+                Icons.push_pin_outlined,
+                color: titleColor,
+                size: 30,
+              ),
+              label: "Pin note",
+            ),
+            BottomsheetItem(
+              icon: Icon(
+                Icons.star_border_rounded,
+                color: titleColor,
+                size: 30,
+              ),
+              label: "Add to favorites",
+            ),
+            BottomsheetItem(
+              icon: Icon(
+                Icons.archive_outlined,
+                color: titleColor,
+                size: 30,
+              ),
+              label: "Archive note",
             ),
           ],
         ),

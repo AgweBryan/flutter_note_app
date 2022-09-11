@@ -7,7 +7,6 @@ class Note {
   int noteColor;
   String category;
   int isArchive;
-  int isLocked;
   int isPinned;
   int isFavorite;
 
@@ -20,7 +19,6 @@ class Note {
     required this.noteColor,
     required this.category,
     required this.isArchive,
-    required this.isLocked,
     required this.isPinned,
     required this.isFavorite,
   });
@@ -34,7 +32,6 @@ class Note {
         noteColor: json['noteColor'],
         category: json['category'],
         isArchive: json['isArchive'],
-        isLocked: json['isLocked'],
         isPinned: json['isPinned'],
         isFavorite: json['isFavorite'],
       );
@@ -48,7 +45,6 @@ class Note {
         'noteColor': noteColor,
         'category': category,
         'isArchive': isArchive,
-        'isLocked': isLocked,
         'isPinned': isPinned,
         'isFavorite': isFavorite,
       };
