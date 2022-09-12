@@ -162,7 +162,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
         IconButton(
           onPressed: () {},
           icon: Icon(
-            Icons.done,
+            Icons.check_box_rounded,
             color: primaryColor,
           ),
         ),
