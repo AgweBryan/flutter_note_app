@@ -8,14 +8,12 @@ const Color navBarBckColor = Colors.black;
 
 const List<Color> noteColor = [
   backgroundColor,
-  Colors.lightBlueAccent,
-  Colors.yellowAccent,
+  Colors.lightBlue,
+  Colors.yellow,
   Colors.white,
-  Colors.pinkAccent,
-  Colors.cyanAccent,
-  Colors.orangeAccent,
-  Colors.deepOrangeAccent,
-  Colors.purpleAccent,
-  Colors.greenAccent,
-  Colors.grey,
+  Colors.pink,
+  Colors.cyan,
+  Colors.orange,
+  Colors.deepOrange,
+  Colors.green,
 ];

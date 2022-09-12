@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_note_app/controllers/add_note_controller.dart';
 import 'package:flutter_note_app/utils/colors.dart';
-import 'package:flutter_note_app/utils/custom_text.dart';
 import 'package:flutter_note_app/views/screens/addNote/widgets/bottomsheet_item.dart';
 import 'package:flutter_note_app/views/screens/addNote/widgets/color_palette.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class AddNoteScreen extends StatefulWidget {
@@ -20,6 +20,10 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
   double noteFontSize = 16;
+  bool isBackgroundColor = true;
+  int colorIndex = 0;
+  Color get color => isBackgroundColor ? textColor : Colors.black;
+
   updateNoteFontSize() {
     if (noteFontSize > 26) {
       setState(() {
@@ -42,6 +46,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: noteColor[colorIndex].withOpacity(.7),
       appBar: _appBar(context),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
@@ -51,11 +56,13 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
-                  child: CustomText(
-                    isTitle: true,
-                    fontSize: 16,
-                    text: DateFormat.yMMMd().format(
+                  child: Text(
+                    DateFormat.yMMMd().format(
                       DateTime.now(),
+                    ),
+                    style: GoogleFonts.nunitoSans(
+                      fontSize: 16,
+                      color: textColor,
                     ),
                   ),
                 ),
@@ -64,6 +71,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                     children: [
                       Icon(
                         Icons.folder,
+                        color: textColor,
                       ),
                       Container(
                         padding: EdgeInsets.only(left: 5),
@@ -72,15 +80,18 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                             value: "Note",
                             icon: Icon(
                               Icons.keyboard_arrow_down_rounded,
+                              color: textColor,
                             ),
                             items: ["Note", "School", "shopping"]
                                 .map((String item) {
                               return DropdownMenuItem(
                                 value: item,
-                                child: CustomText(
-                                  text: item,
-                                  fontSize: 16,
-                                  isTitle: true,
+                                child: Text(
+                                  item,
+                                  style: GoogleFonts.nunitoSans(
+                                    fontSize: 16,
+                                    color: textColor,
+                                  ),
                                 ),
                               );
                             }).toList(),
@@ -97,22 +108,26 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
               ],
             ),
             TextField(
+              cursorColor: color,
               decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: "Note Title",
-              ),
+                  border: InputBorder.none,
+                  hintText: "Note Title",
+                  hintStyle: TextStyle(color: textColor)),
               style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-              ),
+                  fontSize: 28, fontWeight: FontWeight.bold, color: color),
             ),
             Expanded(
               child: TextField(
+                cursorColor: color,
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
-                style: TextStyle(fontSize: noteFontSize),
+                style: TextStyle(fontSize: noteFontSize, color: color),
                 decoration: InputDecoration(
-                    border: InputBorder.none, hintText: "your note..."),
+                    hintStyle: TextStyle(
+                      color: textColor,
+                    ),
+                    border: InputBorder.none,
+                    hintText: "your note..."),
               ),
             ),
           ],
@@ -123,24 +138,40 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
 
   _appBar(BuildContext context) {
     return AppBar(
-      title: const Text("Add new note"),
+      leading: IconButton(
+        onPressed: () => Get.back(),
+        icon: Icon(
+          Icons.arrow_back_rounded,
+          color: textColor,
+        ),
+      ),
+      title: Text(
+        "Add new note",
+        style: TextStyle(color: textColor),
+      ),
       backgroundColor: Colors.transparent,
       elevation: 0,
       actions: [
         IconButton(
           onPressed: () => updateNoteFontSize(),
-          icon: Icon(Icons.format_size_rounded),
+          icon: Icon(
+            Icons.format_size_rounded,
+            color: textColor,
+          ),
         ),
         IconButton(
           onPressed: () {},
           icon: Icon(
             Icons.done,
-            color: Colors.green,
+            color: primaryColor,
           ),
         ),
         IconButton(
           onPressed: () => _showBottomSheet(context),
-          icon: Icon(Icons.more_vert_rounded),
+          icon: Icon(
+            Icons.more_vert_rounded,
+            color: textColor,
+          ),
         )
       ],
     );
@@ -168,13 +199,22 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: noteColor.length,
-                itemBuilder: (context, i) => ColorPalette(
-                  index: i,
+                itemBuilder: (context, i) => GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      colorIndex = i;
+                      isBackgroundColor = colorIndex == 0 ? true : false;
+                    });
+                    _addNoteController.updateSelectedNoteColor(colorIndex);
+                  },
+                  child: ColorPalette(
+                    index: i,
+                  ),
                 ),
               ),
             ),
             BottomsheetItem(
-              onTap: () {},
+              onTap: () => Get.back(),
               icon: Icon(
                 Icons.delete_outline_rounded,
                 color: titleColor,
