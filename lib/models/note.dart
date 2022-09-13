@@ -1,26 +1,26 @@
 class Note {
-  String id;
-  String title;
-  String body;
-  String dateCreated;
-  String lastEdited;
-  String noteColor;
-  String category;
-  String isArchive;
-  String isPinned;
-  String isFavorite;
+  String? id;
+  String? title;
+  String? body;
+  String? dateCreated;
+  String? lastEdited;
+  String? noteColor;
+  String? category;
+  String? isArchive;
+  String? isPinned;
+  String? isFavorite;
 
   Note({
-    required this.id,
-    required this.title,
-    required this.body,
-    required this.dateCreated,
-    required this.lastEdited,
-    required this.noteColor,
-    required this.category,
-    required this.isArchive,
-    required this.isPinned,
-    required this.isFavorite,
+    this.id,
+    this.title,
+    this.body,
+    this.dateCreated,
+    this.lastEdited,
+    this.noteColor,
+    this.category,
+    this.isArchive,
+    this.isPinned,
+    this.isFavorite,
   });
 
   Note fromJson(Map<String, dynamic> json) => Note(

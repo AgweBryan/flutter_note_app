@@ -1,8 +1,8 @@
 class Category {
-  String id;
-  String categoryName;
+  String? id;
+  String? categoryName;
 
-  Category({required this.categoryName, required this.id});
+  Category({this.categoryName, this.id});
 
   Map<String, dynamic> toMap() => {
         'categoryName': categoryName,

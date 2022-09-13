@@ -1,3 +1,3 @@
-import 'package:flutter_note_app/controllers/categories_controller.dart';
+import 'package:flutter_note_app/controllers/database_controller.dart';
 
-final categoriesController = CategoriesController.instance;
+final dbController = DatabaseController.instance;

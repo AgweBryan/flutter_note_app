@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_note_app/controllers/add_note_controller.dart';
+import 'package:flutter_note_app/models/category.dart';
 import 'package:flutter_note_app/utils/colors.dart';
+import 'package:flutter_note_app/utils/controller.dart';
 import 'package:flutter_note_app/views/screens/addNote/widgets/bottomsheet_item.dart';
 import 'package:flutter_note_app/views/screens/addNote/widgets/color_palette.dart';
 import 'package:get/get.dart';
@@ -77,17 +79,16 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                         padding: EdgeInsets.only(left: 5),
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton(
-                            value: "Note",
+                            value: dbController.categories[0].categoryName,
                             icon: Icon(
                               Icons.keyboard_arrow_down_rounded,
                               color: textColor,
                             ),
-                            items: ["Note", "School", "shopping"]
-                                .map((String item) {
+                            items: dbController.categories.map((Category item) {
                               return DropdownMenuItem(
-                                value: item,
+                                value: item.categoryName,
                                 child: Text(
-                                  item,
+                                  item.categoryName!,
                                   style: GoogleFonts.nunitoSans(
                                     fontSize: 16,
                                     color: textColor,

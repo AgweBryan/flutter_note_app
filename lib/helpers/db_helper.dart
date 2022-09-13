@@ -34,11 +34,19 @@ class DatabaseHelper {
         Category(categoryName: "uncategorized", id: DateTime.now().toString()),
       );
     } catch (e) {
-      Get.snackbar("Erro", e.toString());
+      Get.snackbar("Error", e.toString());
     }
   }
 
   static Future<int> insertCategory(Category category) async {
     return await _db!.insert(_categoriesTableName, category.toMap());
+  }
+
+  static Future<List<Map<String, dynamic>>> queryCategories() async {
+    return await _db!.query(_categoriesTableName);
+  }
+
+  static Future<List<Map<String, dynamic>>> queryNotes() async {
+    return await _db!.query(_notesTableName);
   }
 }
