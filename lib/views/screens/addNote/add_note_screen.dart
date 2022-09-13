@@ -85,6 +85,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                               color: textColor,
                             ),
                             items: dbController.categories.map((Category item) {
+                              print(item.categoryName);
                               return DropdownMenuItem(
                                 value: item.categoryName,
                                 child: Text(

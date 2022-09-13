@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_note_app/controllers/notes_controller.dart';
 import 'package:flutter_note_app/utils/colors.dart';
+import 'package:flutter_note_app/utils/controller.dart';
 import 'package:flutter_note_app/utils/custom_text.dart';
 import 'package:flutter_note_app/views/screens/notes/widgets/placeholder.dart';
 import 'package:get/get.dart';
@@ -13,8 +13,6 @@ class NotesScreen extends StatefulWidget {
 }
 
 class _NotesScreenState extends State<NotesScreen> {
-  final NotesController _notesController = Get.put(NotesController());
-
   final TextEditingController _quickNoteController = TextEditingController();
   bool isQuickNote = false;
   double quikNoteHeight = 60;
@@ -85,9 +83,7 @@ class _NotesScreenState extends State<NotesScreen> {
                   }),
                 ),
               ),
-              _notesController.myNotes.isEmpty
-                  ? PlaceHolder()
-                  : Text("has Data"),
+              dbController.notes.isEmpty ? PlaceHolder() : Text("has Data"),
             ],
           ),
         ),

@@ -16,19 +16,23 @@ class DatabaseHelper {
     try {
       String path = await getDatabasesPath() + _path;
 
-      _db = await openDatabase(path,
-          version: _version, onCreate: (db, version) => db.execute('''
-         CREATE TABLE $_categoriesTableName(
+      _db = await openDatabase(
+        path,
+        version: _version,
+        onCreate: (db, version) {
+          db.execute('''
+          CREATE TABLE $_categoriesTableName(
           id STRING PRIMARY KEY,
           categoryName TEXT)
-
-        
-         CREATE TABLE $_notesTableName(
+          ''');
+          db.execute('''
+          CREATE TABLE $_notesTableName(
           id STRING PRIMARY KEY,
           title TEXT, body TEXT, dateCreated TEXT, lastEdited TEXT, 
-          noteColor TEXT, category TEXT, category TEXT, isArchive TEXT, isPinned TEXT, isFavorite TEXT)
-        
-        '''));
+          noteColor TEXT, category TEXT, isArchive TEXT, isPinned TEXT, isFavorite TEXT)
+          ''');
+        },
+      );
 
       await insertCategory(
         Category(categoryName: "uncategorized", id: DateTime.now().toString()),
