@@ -4,11 +4,11 @@ class Note {
   String body;
   String dateCreated;
   String lastEdited;
-  int noteColor;
+  String noteColor;
   String category;
-  int isArchive;
-  int isPinned;
-  int isFavorite;
+  String isArchive;
+  String isPinned;
+  String isFavorite;
 
   Note({
     required this.id,
