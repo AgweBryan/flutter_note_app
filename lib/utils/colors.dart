@@ -6,8 +6,8 @@ const Color titleColor = Color(0xFFd8d8d8);
 const Color backgroundColor = Color.fromRGBO(10, 10, 10, 1);
 const Color navBarBckColor = Colors.black;
 
-const List<Color> noteColor = [
-  backgroundColor,
+List<Color> noteColor = [
+  primaryColor.withOpacity(.1),
   Colors.lightBlue,
   Colors.yellow,
   Colors.white,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_note_app/utils/controller.dart';
 import 'package:flutter_note_app/views/screens/notes/views_enum.dart';
+import 'package:flutter_note_app/views/screens/notes/widgets/list_view.dart';
 
 class ShowNotes extends StatelessWidget {
   final Views view;
@@ -16,7 +17,7 @@ class ShowNotes extends StatelessWidget {
       case Views.largeGrid:
         return Text('largeGrid');
       case Views.list:
-        return Text('list');
+        return ListViewView();
       case Views.staggered:
         return Text('staggered');
       default:
