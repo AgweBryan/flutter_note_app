@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_note_app/models/note.dart';
 import 'package:flutter_note_app/utils/colors.dart';
 import 'package:flutter_note_app/utils/controller.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DetailedView extends StatelessWidget {
-  const DetailedView({super.key});
+  final List<Note> notes;
+  DetailedView({super.key, required this.notes});
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
         child: ListView.builder(
       padding: EdgeInsets.only(top: 10),
-      itemCount: dbController.notes.length,
+      itemCount: notes.length,
       itemBuilder: (context, i) {
-        final note = dbController.notes[i];
+        final note = notes[i];
         return Card(
           color: noteColor[int.parse(note.noteColor!)],
           elevation: 7,

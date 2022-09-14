@@ -12,7 +12,9 @@ class ShowNotes extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (view) {
       case Views.detailed:
-        return DetailedView();
+        return DetailedView(
+          notes: dbController.notes,
+        );
       case Views.grid:
         return Text('grid');
       case Views.largeGrid:
