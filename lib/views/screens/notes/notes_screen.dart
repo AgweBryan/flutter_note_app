@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_note_app/models/note.dart';
 import 'package:flutter_note_app/utils/colors.dart';
 import 'package:flutter_note_app/utils/controller.dart';
 import 'package:flutter_note_app/utils/custom_text.dart';
+import 'package:flutter_note_app/views/screens/notes/views_enum.dart';
 import 'package:flutter_note_app/views/screens/notes/widgets/placeholder.dart';
+import 'package:flutter_note_app/views/screens/notes/widgets/show_notes.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class NotesScreen extends StatefulWidget {
   NotesScreen({Key? key}) : super(key: key);
@@ -16,6 +20,8 @@ class _NotesScreenState extends State<NotesScreen> {
   final TextEditingController _quickNoteController = TextEditingController();
   bool isQuickNote = false;
   double quikNoteHeight = 60;
+
+  Views view = Views.staggered;
 
   @override
   void dispose() {
@@ -51,7 +57,7 @@ class _NotesScreenState extends State<NotesScreen> {
                           ),
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () => _addQuickNote(),
                           icon: Icon(
                             Icons.save,
                             color: primaryColor,
@@ -83,7 +89,11 @@ class _NotesScreenState extends State<NotesScreen> {
                   }),
                 ),
               ),
-              dbController.notes.isEmpty ? PlaceHolder() : Text("has Data"),
+              dbController.notes.isEmpty
+                  ? PlaceHolder()
+                  : ShowNotes(
+                      view: view,
+                    ),
             ],
           ),
         ),
@@ -100,16 +110,99 @@ class _NotesScreenState extends State<NotesScreen> {
         isTitle: true,
       ),
       actions: [
-        IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.more_vert_rounded,
-          ),
+        DropdownButtonHideUnderline(
+          child: DropdownButton(
+              value: _displayedView(),
+              icon: Icon(
+                Icons.keyboard_arrow_down_rounded,
+                color: titleColor,
+              ),
+              items: ['list', 'grid', 'large-grid', 'staggered', 'detailed']
+                  .map((String item) {
+                return DropdownMenuItem(
+                  value: item,
+                  child: CustomText(
+                    text: item,
+                    fontSize: 20,
+                    isTitle: true,
+                  ),
+                );
+              }).toList(),
+              onChanged: _selectedView),
         ),
       ],
       backgroundColor: Colors.transparent,
       elevation: 0,
       toolbarHeight: 80,
     );
+  }
+
+  _addQuickNote() async {
+    final Note quickNote = Note(
+      id: DateTime.now().toString(),
+      title: "Quick Note",
+      body: _quickNoteController.text,
+      dateCreated: DateTime.now().toString(),
+      lastEdited: DateTime.now().toString(),
+      noteColor: '0',
+      category: 'uncategorized',
+      isArchive: '0',
+      isFavorite: '0',
+      isPinned: '0',
+    );
+    await dbController.insertNote(quickNote);
+    await dbController.getNotes();
+    setState(() {
+      isQuickNote = false;
+      quikNoteHeight = 60;
+      _quickNoteController.text = "";
+    });
+  }
+
+  String _displayedView() {
+    switch (view) {
+      case Views.detailed:
+        return 'detailed';
+      case Views.staggered:
+        return 'staggered';
+      case Views.grid:
+        return 'grid';
+      case Views.largeGrid:
+        return 'large-grid';
+      case Views.list:
+        return 'list';
+      default:
+        return 'staggered';
+    }
+  }
+
+  void _selectedView(String? value) {
+    switch (value) {
+      case 'detailed':
+        setState(() {
+          view = Views.detailed;
+        });
+        break;
+      case 'list':
+        setState(() {
+          view = Views.list;
+        });
+        break;
+      case 'staggered':
+        setState(() {
+          view = Views.staggered;
+        });
+        break;
+      case 'grid':
+        setState(() {
+          view = Views.grid;
+        });
+        break;
+      case 'large-grid':
+        setState(() {
+          view = Views.largeGrid;
+        });
+        break;
+    }
   }
 }
