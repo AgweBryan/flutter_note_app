@@ -24,6 +24,8 @@ class ListViewView extends StatelessWidget {
             note.title!,
             style: GoogleFonts.nunito(
               fontSize: 17,
+              color: titleColor,
+              fontWeight: FontWeight.bold,
             ),
           )),
         );
