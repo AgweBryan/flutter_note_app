@@ -1,4 +1,5 @@
 import 'package:flutter_note_app/models/category.dart';
+import 'package:flutter_note_app/models/note.dart';
 import 'package:get/get.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -43,14 +44,10 @@ class DatabaseHelper {
   }
 
   static Future<int> insertCategory(Category category) async {
-    List<Map<String, dynamic>> query = await queryCategories();
     final tables = await _db!.rawQuery(
         '''SELECT * FROM $_categoriesTableName WHERE categoryName='${category.categoryName}';''');
 
-    print('QUERIED TABLES: $tables');
-
-    if (tables.length > 0) {
-      print("Category exists");
+    if (tables.isNotEmpty) {
       return 0;
     }
 
@@ -63,5 +60,13 @@ class DatabaseHelper {
 
   static Future<List<Map<String, dynamic>>> queryNotes() async {
     return await _db!.query(_notesTableName);
+  }
+
+  static Future<int> insertNote(Note note) async {
+    return await _db!.insert(_notesTableName, note.toMap());
+  }
+
+  static Future<int> deleteNote(String id) async {
+    return await _db!.delete(_notesTableName, where: 'id=?', whereArgs: [id]);
   }
 }

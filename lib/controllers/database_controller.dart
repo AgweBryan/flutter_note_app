@@ -42,4 +42,12 @@ class DatabaseController extends GetxController {
 
     _notes.value = notesFromDb;
   }
+
+  Future<int> insertNote(Note note) async {
+    return await DatabaseHelper.insertNote(note);
+  }
+
+  Future<int> deleteNote(String id) async {
+    return await DatabaseHelper.deleteNote(id);
+  }
 }

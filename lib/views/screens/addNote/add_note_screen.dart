@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_note_app/controllers/add_note_controller.dart';
 import 'package:flutter_note_app/models/category.dart';
+import 'package:flutter_note_app/models/note.dart';
 import 'package:flutter_note_app/utils/colors.dart';
 import 'package:flutter_note_app/utils/controller.dart';
+import 'package:flutter_note_app/utils/message.dart';
 import 'package:flutter_note_app/views/screens/addNote/widgets/bottomsheet_item.dart';
 import 'package:flutter_note_app/views/screens/addNote/widgets/color_palette.dart';
 import 'package:get/get.dart';
@@ -25,6 +27,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   bool isBackgroundColor = true;
   int colorIndex = 0;
   Color get color => isBackgroundColor ? textColor : Colors.black;
+  String selectedCategory = dbController.categories[0].categoryName!;
 
   updateNoteFontSize() {
     if (noteFontSize > 26) {
@@ -68,27 +71,30 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                     ),
                   ),
                 ),
-                Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: primaryColor,
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.save,
-                        color: noteColor[colorIndex],
-                      ),
-                      Text(
-                        'Save',
-                        style: TextStyle(
-                          fontSize: 16,
+                InkWell(
+                  onTap: () => _addNote(context),
+                  child: Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: primaryColor,
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.save,
                           color: noteColor[colorIndex],
                         ),
-                      ),
-                    ],
+                        Text(
+                          'Save',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: noteColor[colorIndex],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -102,13 +108,12 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                         padding: EdgeInsets.only(left: 5),
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton(
-                            value: dbController.categories[0].categoryName,
+                            value: selectedCategory,
                             icon: Icon(
                               Icons.keyboard_arrow_down_rounded,
                               color: textColor,
                             ),
                             items: dbController.categories.map((Category item) {
-                              print(item.categoryName);
                               return DropdownMenuItem(
                                 value: item.categoryName,
                                 child: Text(
@@ -121,8 +126,9 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                               );
                             }).toList(),
                             onChanged: (String? newValue) {
-                              // todo: change value
-                              print(newValue);
+                              setState(() {
+                                selectedCategory = newValue!;
+                              });
                             },
                           ),
                         ),
@@ -133,6 +139,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
               ],
             ),
             TextField(
+              controller: _titleController,
               cursorColor: color,
               decoration: InputDecoration(
                   border: InputBorder.none,
@@ -143,6 +150,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
             ),
             Expanded(
               child: TextField(
+                controller: _noteController,
                 cursorColor: color,
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
@@ -239,7 +247,23 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
               ),
             ),
             BottomsheetItem(
-              onTap: () => Get.back(),
+              onTap: () {
+                _addNoteController.isPinned == 0
+                    ? 0
+                    : _addNoteController.updateIsPinned();
+                _addNoteController.isFavorite == 0
+                    ? 0
+                    : _addNoteController.updateIsFavorite();
+                _addNoteController.isArchived == 0
+                    ? 0
+                    : _addNoteController.updateIsArchived();
+                setState(() {
+                  _titleController.text = '';
+                  _noteController.text = '';
+
+                  Get.back();
+                });
+              },
               icon: Icon(
                 Icons.delete_outline_rounded,
                 color: titleColor,
@@ -293,5 +317,27 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
         ),
       ),
     );
+  }
+
+  _addNote(BuildContext context) async {
+    if (_titleController.text == '') {
+      customMessage(context: context, message: "Please enter a title");
+    } else {
+      final Note newNote = Note(
+        id: DateTime.now().toString(),
+        title: _titleController.text,
+        body: _noteController.text,
+        dateCreated: DateTime.now().toString(),
+        lastEdited: DateTime.now().toString(),
+        noteColor: colorIndex.toString(),
+        category: selectedCategory,
+        isArchive: _addNoteController.isArchived.toString(),
+        isFavorite: _addNoteController.isFavorite.toString(),
+        isPinned: _addNoteController.isPinned.toString(),
+      );
+      await dbController.insertNote(newNote);
+      await dbController.getNotes();
+      Get.back();
+    }
   }
 }
