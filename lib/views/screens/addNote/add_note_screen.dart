@@ -68,6 +68,29 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                     ),
                   ),
                 ),
+                Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: primaryColor,
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.save,
+                        color: noteColor[colorIndex],
+                      ),
+                      Text(
+                        'Save',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: noteColor[colorIndex],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 SizedBox(
                   child: Row(
                     children: [
@@ -164,8 +187,8 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
         IconButton(
           onPressed: () {},
           icon: Icon(
-            Icons.check_box_rounded,
-            color: primaryColor,
+            Icons.create_new_folder_rounded,
+            color: textColor,
           ),
         ),
         IconButton(

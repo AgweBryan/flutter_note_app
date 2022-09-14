@@ -43,6 +43,17 @@ class DatabaseHelper {
   }
 
   static Future<int> insertCategory(Category category) async {
+    List<Map<String, dynamic>> query = await queryCategories();
+    final tables = await _db!.rawQuery(
+        '''SELECT * FROM $_categoriesTableName WHERE categoryName='${category.categoryName}';''');
+
+    print('QUERIED TABLES: $tables');
+
+    if (tables.length > 0) {
+      print("Category exists");
+      return 0;
+    }
+
     return await _db!.insert(_categoriesTableName, category.toMap());
   }
 
