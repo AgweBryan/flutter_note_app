@@ -38,7 +38,7 @@ class StaggeredViewView extends StatelessWidget {
       decoration: BoxDecoration(
         color: noteColor[int.parse(note.noteColor!)],
         borderRadius: BorderRadius.circular(
-          5,
+          17,
         ),
       ),
       padding: EdgeInsets.all(12),
