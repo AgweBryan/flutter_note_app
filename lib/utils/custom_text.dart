@@ -19,6 +19,8 @@ class CustomText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
+      maxLines: isTitle! ? 1 : 4,
+      overflow: TextOverflow.ellipsis,
       style: GoogleFonts.nunitoSans(
         fontSize: fontSize,
         fontWeight: isBold! ? FontWeight.bold : FontWeight.normal,
