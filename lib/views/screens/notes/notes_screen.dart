@@ -7,7 +7,6 @@ import 'package:flutter_note_app/views/screens/notes/views_enum.dart';
 import 'package:flutter_note_app/views/screens/notes/widgets/placeholder.dart';
 import 'package:flutter_note_app/views/screens/notes/widgets/show_notes.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class NotesScreen extends StatefulWidget {
   NotesScreen({Key? key}) : super(key: key);

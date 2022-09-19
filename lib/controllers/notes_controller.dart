@@ -1,4 +1,3 @@
-import 'package:flutter_note_app/models/note.dart';
 import 'package:get/get.dart';
 
 class NotesController extends GetxController {

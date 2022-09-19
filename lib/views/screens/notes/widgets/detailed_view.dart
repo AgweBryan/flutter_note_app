@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_note_app/models/note.dart';
 import 'package:flutter_note_app/utils/colors.dart';
-import 'package:flutter_note_app/utils/controller.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DetailedView extends StatelessWidget {
