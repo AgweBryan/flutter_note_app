@@ -7,6 +7,7 @@ import 'package:flutter_note_app/utils/controller.dart';
 import 'package:flutter_note_app/utils/message.dart';
 import 'package:flutter_note_app/views/screens/addNote/widgets/bottomsheet_item.dart';
 import 'package:flutter_note_app/views/screens/addNote/widgets/color_palette.dart';
+import 'package:flutter_note_app/views/screens/categories/widgets/add_category.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -54,119 +55,123 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
     return Scaffold(
       backgroundColor: noteColor[colorIndex].withOpacity(.7),
       appBar: _appBar(context),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  child: Text(
-                    DateFormat.yMMMd().format(
-                      DateTime.now(),
-                    ),
-                    style: GoogleFonts.nunitoSans(
-                      fontSize: 16,
-                      color: textColor,
+      body: Obx(() {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    child: Text(
+                      DateFormat.yMMMd().format(
+                        DateTime.now(),
+                      ),
+                      style: GoogleFonts.nunitoSans(
+                        fontSize: 16,
+                        color: textColor,
+                      ),
                     ),
                   ),
-                ),
-                InkWell(
-                  onTap: () => _addNote(context),
-                  child: Container(
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: primaryColor,
-                      borderRadius: BorderRadius.circular(50),
+                  InkWell(
+                    onTap: () => _addNote(context),
+                    child: Container(
+                      alignment: Alignment.center,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: primaryColor,
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.save,
+                            color: noteColor[colorIndex],
+                          ),
+                          Text(
+                            'Save',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: noteColor[colorIndex],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
+                  ),
+                  SizedBox(
                     child: Row(
                       children: [
                         Icon(
-                          Icons.save,
-                          color: noteColor[colorIndex],
+                          Icons.folder,
+                          color: textColor,
                         ),
-                        Text(
-                          'Save',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: noteColor[colorIndex],
+                        Container(
+                          padding: EdgeInsets.only(left: 5),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton(
+                              value: selectedCategory,
+                              icon: Icon(
+                                Icons.keyboard_arrow_down_rounded,
+                                color: textColor,
+                              ),
+                              items:
+                                  dbController.categories.map((Category item) {
+                                return DropdownMenuItem(
+                                  value: item.categoryName,
+                                  child: Text(
+                                    item.categoryName!,
+                                    style: GoogleFonts.nunitoSans(
+                                      fontSize: 16,
+                                      color: textColor,
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  selectedCategory = newValue!;
+                                });
+                              },
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                ),
-                SizedBox(
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.folder,
+                ],
+              ),
+              TextField(
+                controller: _titleController,
+                cursorColor: color,
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "Note Title",
+                    hintStyle: TextStyle(color: textColor)),
+                style: TextStyle(
+                    fontSize: 28, fontWeight: FontWeight.bold, color: color),
+              ),
+              Expanded(
+                child: TextField(
+                  controller: _noteController,
+                  cursorColor: color,
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  style: TextStyle(fontSize: noteFontSize, color: color),
+                  decoration: InputDecoration(
+                      hintStyle: TextStyle(
                         color: textColor,
                       ),
-                      Container(
-                        padding: EdgeInsets.only(left: 5),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                            value: selectedCategory,
-                            icon: Icon(
-                              Icons.keyboard_arrow_down_rounded,
-                              color: textColor,
-                            ),
-                            items: dbController.categories.map((Category item) {
-                              return DropdownMenuItem(
-                                value: item.categoryName,
-                                child: Text(
-                                  item.categoryName!,
-                                  style: GoogleFonts.nunitoSans(
-                                    fontSize: 16,
-                                    color: textColor,
-                                  ),
-                                ),
-                              );
-                            }).toList(),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                selectedCategory = newValue!;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                      border: InputBorder.none,
+                      hintText: "your note..."),
                 ),
-              ],
-            ),
-            TextField(
-              controller: _titleController,
-              cursorColor: color,
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: "Note Title",
-                  hintStyle: TextStyle(color: textColor)),
-              style: TextStyle(
-                  fontSize: 28, fontWeight: FontWeight.bold, color: color),
-            ),
-            Expanded(
-              child: TextField(
-                controller: _noteController,
-                cursorColor: color,
-                keyboardType: TextInputType.multiline,
-                maxLines: null,
-                style: TextStyle(fontSize: noteFontSize, color: color),
-                decoration: InputDecoration(
-                    hintStyle: TextStyle(
-                      color: textColor,
-                    ),
-                    border: InputBorder.none,
-                    hintText: "your note..."),
               ),
-            ),
-          ],
-        ),
-      ),
+            ],
+          ),
+        );
+      }),
     );
   }
 
@@ -194,7 +199,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
           ),
         ),
         IconButton(
-          onPressed: () {},
+          onPressed: () => Get.to(() => AddNewCategory()),
           icon: Icon(
             Icons.create_new_folder_rounded,
             color: textColor,
