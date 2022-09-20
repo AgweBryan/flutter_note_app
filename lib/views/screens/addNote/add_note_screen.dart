@@ -27,7 +27,8 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   bool isBackgroundColor = true;
   int colorIndex = 0;
   Color get color => isBackgroundColor ? textColor : Colors.black;
-  String selectedCategory = dbController.categories[0].categoryName!;
+  String selectedCategory =
+      dbController.categories[dbController.categories.length - 1].categoryName!;
 
   updateNoteFontSize() {
     if (noteFontSize > 26) {
