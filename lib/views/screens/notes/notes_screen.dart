@@ -116,8 +116,13 @@ class _NotesScreenState extends State<NotesScreen> {
                 Icons.keyboard_arrow_down_rounded,
                 color: titleColor,
               ),
-              items: ['list', 'grid', 'large-grid', 'staggered', 'detailed']
-                  .map((String item) {
+              items: [
+                'list',
+                'detailed',
+                'grid',
+                'large-grid',
+                'staggered',
+              ].map((String item) {
                 return DropdownMenuItem(
                   value: item,
                   child: CustomText(

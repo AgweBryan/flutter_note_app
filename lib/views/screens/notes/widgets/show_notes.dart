@@ -29,16 +29,5 @@ class ShowNotes extends StatelessWidget {
       default:
         return StaggeredViewView();
     }
-    // return Expanded(
-    //     child: ListView.builder(
-    //   itemCount: dbController.notes.length,
-    //   itemBuilder: (context, i) {
-    //     final note = dbController.notes[i];
-    //     return ListTile(
-    //       title: Text(note.title!),
-    //       subtitle: Text(note.body!),
-    //     );
-    //   },
-    // ));
   }
 }
