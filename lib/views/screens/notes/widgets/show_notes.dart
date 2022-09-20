@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_note_app/utils/controller.dart';
 import 'package:flutter_note_app/views/screens/notes/views_enum.dart';
 import 'package:flutter_note_app/views/screens/notes/widgets/detailed_view.dart';
+import 'package:flutter_note_app/views/screens/notes/widgets/grid_view.dart';
 import 'package:flutter_note_app/views/screens/notes/widgets/list_view.dart';
 import 'package:flutter_note_app/views/screens/notes/widgets/staggered_view.dart';
 
@@ -17,7 +18,7 @@ class ShowNotes extends StatelessWidget {
           notes: dbController.notes,
         );
       case Views.grid:
-        return Text('grid');
+        return GridViewView();
       case Views.largeGrid:
         return Text('largeGrid');
       case Views.list:
