@@ -1,5 +1,6 @@
 import 'package:flutter_note_app/models/category.dart';
 import 'package:flutter_note_app/models/note.dart';
+import 'package:flutter_note_app/utils/message.dart';
 import 'package:get/get.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -48,6 +49,7 @@ class DatabaseHelper {
         '''SELECT * FROM $_categoriesTableName WHERE categoryName='${category.categoryName}';''');
 
     if (tables.isNotEmpty) {
+      Get.snackbar('Error', 'Category already exists');
       return 0;
     }
 
@@ -68,5 +70,10 @@ class DatabaseHelper {
 
   static Future<int> deleteNote(String id) async {
     return await _db!.delete(_notesTableName, where: 'id=?', whereArgs: [id]);
+  }
+
+  static Future<int> deleteCategory(String id) async {
+    return await _db!
+        .delete(_categoriesTableName, where: 'id=?', whereArgs: [id]);
   }
 }
