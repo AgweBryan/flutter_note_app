@@ -5,6 +5,7 @@ import 'package:flutter_note_app/utils/custom_text.dart';
 import 'package:flutter_note_app/views/screens/categories/widgets/add_category.dart';
 import 'package:flutter_note_app/views/screens/categories/widgets/category_notes.dart';
 import 'package:flutter_note_app/views/screens/categories/widgets/folder.dart';
+import 'package:flutter_note_app/views/screens/categories/widgets/others.dart';
 import 'package:get/get.dart';
 
 class CategoriesScreen extends StatelessWidget {
@@ -43,11 +44,64 @@ class CategoriesScreen extends StatelessWidget {
                       onTap: () => Get.to(
                           () => CategoryNotes(catName: category.categoryName!)),
                       child: Folder(
-                          label: category.categoryName!,
+                          label:
+                              '${category.categoryName!} (${getNumberOfNotes(category.categoryName!)})',
                           path: 'assets/category_icon.png'),
                     );
                   },
                 ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              ListTile(
+                onTap: () => Get.to(
+                    () => Others(notes: dbController.notes, label: 'All')),
+                leading: Icon(Icons.notes_rounded),
+                title: Text('All notes'),
+                trailing: Text(dbController.notes.length.toString()),
+              ),
+              ListTile(
+                onTap: () => Get.to(() => Others(
+                    notes: dbController.notes
+                        .where((element) => element.isFavorite == '1')
+                        .toList(),
+                    label: 'Favorite')),
+                leading: Icon(Icons.star_border_rounded),
+                title: Text('Favorite notes'),
+                trailing: Text(dbController.notes
+                    .where((element) => element.isFavorite == '1')
+                    .toList()
+                    .length
+                    .toString()),
+              ),
+              ListTile(
+                onTap: () => Get.to(() => Others(
+                    notes: dbController.notes
+                        .where((element) => element.isArchive == '1')
+                        .toList(),
+                    label: 'Archived')),
+                leading: Icon(Icons.archive_outlined),
+                title: Text('Archived notes'),
+                trailing: Text(dbController.notes
+                    .where((element) => element.isArchive == '1')
+                    .toList()
+                    .length
+                    .toString()),
+              ),
+              ListTile(
+                onTap: () => Get.to(() => Others(
+                    notes: dbController.notes
+                        .where((element) => element.isPinned == '1')
+                        .toList(),
+                    label: 'Pinned')),
+                leading: Icon(Icons.push_pin_rounded),
+                title: Text('Pinned notes'),
+                trailing: Text(dbController.notes
+                    .where((element) => element.isPinned == '1')
+                    .toList()
+                    .length
+                    .toString()),
               ),
             ],
           ),
@@ -68,5 +122,12 @@ class CategoriesScreen extends StatelessWidget {
       elevation: 0,
       toolbarHeight: 80,
     );
+  }
+
+  getNumberOfNotes(String catName) {
+    return dbController.notes
+        .where((element) => element.category == catName)
+        .toList()
+        .length;
   }
 }
