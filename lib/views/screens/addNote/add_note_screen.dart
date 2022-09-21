@@ -289,6 +289,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
             BottomsheetItem(
               onTap: () {
                 _addNoteController.updateIsPinned();
+                Get.back();
               },
               icon: Icon(
                 Icons.push_pin_outlined,
@@ -300,6 +301,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
             BottomsheetItem(
               onTap: () {
                 _addNoteController.updateIsFavorite();
+                Get.back();
               },
               icon: Icon(
                 Icons.star_border_rounded,
@@ -311,6 +313,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
             BottomsheetItem(
               onTap: () {
                 _addNoteController.updateIsArchived();
+                Get.back();
               },
               icon: Icon(
                 Icons.archive_outlined,
