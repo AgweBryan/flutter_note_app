@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_note_app/controllers/notes_controller.dart';
 import 'package:flutter_note_app/models/note.dart';
 import 'package:flutter_note_app/utils/colors.dart';
 import 'package:flutter_note_app/utils/controller.dart';
 import 'package:flutter_note_app/utils/custom_text.dart';
-import 'package:flutter_note_app/views/screens/notes/views_enum.dart';
 import 'package:flutter_note_app/views/screens/notes/widgets/placeholder.dart';
 import 'package:flutter_note_app/views/screens/notes/widgets/show_notes.dart';
 import 'package:get/get.dart';
@@ -20,7 +20,7 @@ class _NotesScreenState extends State<NotesScreen> {
   bool isQuickNote = false;
   double quikNoteHeight = 60;
 
-  Views view = Views.staggered;
+  final NotesController _notesController = Get.put(NotesController());
 
   @override
   void dispose() {
@@ -30,10 +30,10 @@ class _NotesScreenState extends State<NotesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _appBar(),
-      body: Obx(
-        () => Padding(
+    return Obx(
+      () => Scaffold(
+        appBar: _appBar(),
+        body: Padding(
           padding: EdgeInsets.only(top: 0, left: 15, right: 15, bottom: 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,7 +91,7 @@ class _NotesScreenState extends State<NotesScreen> {
               dbController.notes.isEmpty
                   ? PlaceHolder()
                   : ShowNotes(
-                      view: view,
+                      view: _notesController.views,
                     ),
             ],
           ),
@@ -111,7 +111,7 @@ class _NotesScreenState extends State<NotesScreen> {
       actions: [
         DropdownButtonHideUnderline(
           child: DropdownButton(
-              value: _displayedView(),
+              value: _notesController.displayedView(),
               icon: Icon(
                 Icons.keyboard_arrow_down_rounded,
                 color: titleColor,
@@ -132,7 +132,7 @@ class _NotesScreenState extends State<NotesScreen> {
                   ),
                 );
               }).toList(),
-              onChanged: _selectedView),
+              onChanged: _notesController.selectedView),
         ),
       ],
       backgroundColor: Colors.transparent,
@@ -161,52 +161,5 @@ class _NotesScreenState extends State<NotesScreen> {
       quikNoteHeight = 60;
       _quickNoteController.text = "";
     });
-  }
-
-  String _displayedView() {
-    switch (view) {
-      case Views.detailed:
-        return 'detailed';
-      case Views.staggered:
-        return 'staggered';
-      case Views.grid:
-        return 'grid';
-      case Views.largeGrid:
-        return 'large-grid';
-      case Views.list:
-        return 'list';
-      default:
-        return 'staggered';
-    }
-  }
-
-  void _selectedView(String? value) {
-    switch (value) {
-      case 'detailed':
-        setState(() {
-          view = Views.detailed;
-        });
-        break;
-      case 'list':
-        setState(() {
-          view = Views.list;
-        });
-        break;
-      case 'staggered':
-        setState(() {
-          view = Views.staggered;
-        });
-        break;
-      case 'grid':
-        setState(() {
-          view = Views.grid;
-        });
-        break;
-      case 'large-grid':
-        setState(() {
-          view = Views.largeGrid;
-        });
-        break;
-    }
   }
 }
