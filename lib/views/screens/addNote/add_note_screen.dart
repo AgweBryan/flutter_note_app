@@ -11,6 +11,7 @@ import 'package:flutter_note_app/views/screens/categories/widgets/add_category.d
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:share_plus/share_plus.dart';
 
 class AddNoteScreen extends StatefulWidget {
   AddNoteScreen({Key? key}) : super(key: key);
@@ -278,7 +279,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
               label: "Delete note",
             ),
             BottomsheetItem(
-              onTap: () {},
+              onTap: () => _shareNote(),
               icon: Icon(
                 Icons.share_outlined,
                 color: titleColor,
@@ -348,5 +349,9 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
       await dbController.getNotes();
       Get.back();
     }
+  }
+
+  _shareNote() async {
+    await Share.share('${_titleController.text}\n${_noteController.text}');
   }
 }
