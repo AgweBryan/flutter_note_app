@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_note_app/helpers/db_helper.dart';
 import 'package:flutter_note_app/models/category.dart';
 import 'package:flutter_note_app/models/note.dart';
@@ -51,8 +52,8 @@ class DatabaseController extends GetxController {
     return await DatabaseHelper.deleteNote(id);
   }
 
-  Future<int> insertCategory(Category category) async {
-    return await DatabaseHelper.insertCategory(category);
+  Future<int> insertCategory(Category category, BuildContext context) async {
+    return await DatabaseHelper.insertCategory(category, context);
   }
 
   Future<int> deleteCategory(String id) async {

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_note_app/models/category.dart';
 import 'package:flutter_note_app/models/note.dart';
 import 'package:flutter_note_app/utils/message.dart';
@@ -37,19 +38,23 @@ class DatabaseHelper {
       );
 
       await insertCategory(
-        Category(categoryName: "uncategorized", id: DateTime.now().toString()),
-      );
+          Category(
+              categoryName: "uncategorized", id: DateTime.now().toString()),
+          null);
     } catch (e) {
-      Get.snackbar("Error", e.toString());
+      Get.snackbar(
+          "Error", 'Could not create database. Try restarting the app');
     }
   }
 
-  static Future<int> insertCategory(Category category) async {
+  static Future<int> insertCategory(
+      Category category, BuildContext? context) async {
     final tables = await _db!.rawQuery(
         '''SELECT * FROM $_categoriesTableName WHERE categoryName='${category.categoryName}';''');
 
     if (tables.isNotEmpty) {
-      Get.snackbar('Error', 'Category already exists');
+      customMessage(context: context!, message: 'Category already exists');
+
       return 0;
     }
 
