@@ -35,6 +35,8 @@ dependencies:
   get: null
   google_fonts: null
   intl: null
+  share_plus: 
+  shared_preferences: null
   sqflite: null
 
 dev_dependencies:
