@@ -29,7 +29,7 @@ class Others extends StatelessWidget {
 
   _appBar() {
     return AppBar(
-      title: Text('${label} notes'),
+      title: Text('$label notes'),
       backgroundColor: Colors.transparent,
       elevation: 0,
       toolbarHeight: 80,
