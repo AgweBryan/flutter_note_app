@@ -267,9 +267,8 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                 setState(() {
                   _titleController.text = '';
                   _noteController.text = '';
-
-                  Get.back();
                 });
+                Get.back();
               },
               icon: Icon(
                 Icons.delete_outline_rounded,

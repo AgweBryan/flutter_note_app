@@ -58,11 +58,11 @@ class _AddNewCategoryState extends State<AddNewCategory> {
           TextButton.icon(
               onPressed: () async {
                 await dbController.insertCategory(
-                    Category(
-                      id: DateTime.now().toString(),
-                      categoryName: controller.text,
-                    ),
-                    context);
+                  Category(
+                    id: DateTime.now().toString(),
+                    categoryName: controller.text,
+                  ),
+                );
                 dbController.getCategories();
                 Get.back();
               },
