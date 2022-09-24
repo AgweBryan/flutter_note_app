@@ -52,11 +52,15 @@ class DatabaseController extends GetxController {
     return await DatabaseHelper.deleteNote(id);
   }
 
-  Future<int> insertCategory(Category category, BuildContext context) async {
-    return await DatabaseHelper.insertCategory(category, context);
+  Future<int> insertCategory(Category category) async {
+    return await DatabaseHelper.insertCategory(category);
   }
 
   Future<int> deleteCategory(String id) async {
     return await DatabaseHelper.deleteCategory(id);
+  }
+
+  Future<int> editNote(Note note) async {
+    return await DatabaseHelper.editNote(note);
   }
 }

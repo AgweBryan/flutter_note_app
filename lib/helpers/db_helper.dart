@@ -38,22 +38,20 @@ class DatabaseHelper {
       );
 
       await insertCategory(
-          Category(
-              categoryName: "uncategorized", id: DateTime.now().toString()),
-          null);
+        Category(categoryName: "uncategorized", id: DateTime.now().toString()),
+      );
     } catch (e) {
       Get.snackbar(
           "Error", 'Could not create database. Try restarting the app');
     }
   }
 
-  static Future<int> insertCategory(
-      Category category, BuildContext? context) async {
+  static Future<int> insertCategory(Category category) async {
     final tables = await _db!.rawQuery(
         '''SELECT * FROM $_categoriesTableName WHERE categoryName='${category.categoryName}';''');
 
     if (tables.isNotEmpty) {
-      customMessage(context: context!, message: 'Category already exists');
+      Get.snackbar('error', 'Category already exists');
 
       return 0;
     }
@@ -80,5 +78,30 @@ class DatabaseHelper {
   static Future<int> deleteCategory(String id) async {
     return await _db!
         .delete(_categoriesTableName, where: 'id=?', whereArgs: [id]);
+  }
+
+  static Future<int> editNote(Note note) async {
+    return await _db!.rawUpdate('''
+    UPDATE $_notesTableName
+    SET title = ?,
+    body = ?,
+    lastEdited = ?, 
+    noteColor = ?,
+    category = ?,
+    isArchive = ?,
+    isPinned = ?,
+    isFavorite = ?
+    WHERE id = ?
+''', [
+      note.title,
+      note.body,
+      note.lastEdited,
+      note.noteColor,
+      note.category,
+      note.isArchive,
+      note.isPinned,
+      note.isFavorite,
+      note.id,
+    ]);
   }
 }
