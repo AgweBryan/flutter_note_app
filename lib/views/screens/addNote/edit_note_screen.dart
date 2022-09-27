@@ -54,13 +54,13 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
 
   updateBools() {
     if (_addNoteController.isPinned != _isPinned) {
-      _addNoteController.updateIsPinned();
+      _addNoteController.updateIsPinned(true);
     }
     if (_addNoteController.isArchived != _isArchived) {
-      _addNoteController.updateIsArchived();
+      _addNoteController.updateIsArchived(true);
     }
     if (_addNoteController.isFavorite != _isFavorite) {
-      _addNoteController.updateIsFavorite();
+      _addNoteController.updateIsFavorite(true);
     }
   }
 
@@ -252,102 +252,104 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
 
   _showBottomSheet(BuildContext context) {
     return Get.bottomSheet(
-      Container(
-        padding: EdgeInsets.only(top: 10, right: 10, bottom: 5, left: 10),
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          color: navBarBckColor,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(30),
-            topRight: Radius.circular(30),
+      Obx(() {
+        return Container(
+          padding: EdgeInsets.only(top: 10, right: 10, bottom: 5, left: 10),
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            color: navBarBckColor,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
           ),
-        ),
-        child: Wrap(
-          children: [
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 10),
-              padding: EdgeInsets.only(right: 5),
-              height: 50,
-              width: double.infinity,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: noteColor.length,
-                itemBuilder: (context, i) => GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      colorIndex = i;
-                      isBackgroundColor = colorIndex == 0 ? true : false;
-                    });
-                    _addNoteController.updateSelectedNoteColor(colorIndex);
-                  },
-                  child: ColorPalette(
-                    index: i,
+          child: Wrap(
+            children: [
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 10),
+                padding: EdgeInsets.only(right: 5),
+                height: 50,
+                width: double.infinity,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: noteColor.length,
+                  itemBuilder: (context, i) => GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        colorIndex = i;
+                        isBackgroundColor = colorIndex == 0 ? true : false;
+                      });
+                      _addNoteController.updateSelectedNoteColor(colorIndex);
+                    },
+                    child: ColorPalette(
+                      index: i,
+                    ),
                   ),
                 ),
               ),
-            ),
-            BottomsheetItem(
-              onTap: () {
-                dbController.deleteNote(widget.noteToEdit.id!);
-                dbController.getNotes();
-                Get.back();
-                Get.back();
-              },
-              icon: Icon(
-                Icons.delete_outline_rounded,
-                color: titleColor,
-                size: 30,
+              BottomsheetItem(
+                onTap: () {
+                  dbController.deleteNote(widget.noteToEdit.id!);
+                  dbController.getNotes();
+                  Get.back();
+                  Get.back();
+                },
+                icon: Icon(
+                  Icons.delete_outline_rounded,
+                  color: titleColor,
+                  size: 30,
+                ),
+                label: "Delete note",
               ),
-              label: "Delete note",
-            ),
-            BottomsheetItem(
-              onTap: () => _shareNote(),
-              icon: Icon(
-                Icons.share_outlined,
-                color: titleColor,
-                size: 30,
+              BottomsheetItem(
+                onTap: () => _shareNote(),
+                icon: Icon(
+                  Icons.share_outlined,
+                  color: titleColor,
+                  size: 30,
+                ),
+                label: "Share note",
               ),
-              label: "Share note",
-            ),
-            BottomsheetItem(
-              onTap: () {
-                _addNoteController.updateIsPinned();
-                Get.back();
-              },
-              icon: Icon(
-                Icons.push_pin_outlined,
-                color: titleColor,
-                size: 30,
+              BottomsheetItem(
+                icon: Icon(
+                  Icons.push_pin_outlined,
+                  color: titleColor,
+                  size: 30,
+                ),
+                label: "Pin note",
+                switchWidget: Switch(
+                  value: _addNoteController.isPinnedBool,
+                  onChanged: _addNoteController.updateIsPinned,
+                ),
               ),
-              label: "Pin note",
-            ),
-            BottomsheetItem(
-              onTap: () {
-                _addNoteController.updateIsFavorite();
-                Get.back();
-              },
-              icon: Icon(
-                Icons.star_border_rounded,
-                color: titleColor,
-                size: 30,
+              BottomsheetItem(
+                icon: Icon(
+                  Icons.star_border_rounded,
+                  color: titleColor,
+                  size: 30,
+                ),
+                label: "Add to favorites",
+                switchWidget: Switch(
+                  value: _addNoteController.isFavoriteBool,
+                  onChanged: _addNoteController.updateIsFavorite,
+                ),
               ),
-              label: "Add to favorites",
-            ),
-            BottomsheetItem(
-              onTap: () {
-                _addNoteController.updateIsArchived();
-                Get.back();
-              },
-              icon: Icon(
-                Icons.archive_outlined,
-                color: titleColor,
-                size: 30,
+              BottomsheetItem(
+                icon: Icon(
+                  Icons.archive_outlined,
+                  color: titleColor,
+                  size: 30,
+                ),
+                label: "Archive note",
+                switchWidget: Switch(
+                  value: _addNoteController.isArchivedBool,
+                  onChanged: _addNoteController.updateIsArchived,
+                ),
               ),
-              label: "Archive note",
-            ),
-          ],
-        ),
-      ),
+            ],
+          ),
+        );
+      }),
     );
   }
 
