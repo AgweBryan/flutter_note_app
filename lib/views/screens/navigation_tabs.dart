@@ -24,8 +24,6 @@ class _NavigationTabsState extends State<NavigationTabs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.black,
-
       bottomNavigationBar: BubbleBottomBar(
         opacity: .2,
         currentIndex: pageIndex,
@@ -70,17 +68,6 @@ class _NavigationTabsState extends State<NavigationTabs> {
                 color: Colors.lightBlue,
               ),
               title: Text("Search")),
-          BubbleBottomBarItem(
-              backgroundColor: Colors.pinkAccent,
-              icon: Icon(
-                Icons.calendar_today_rounded,
-                color: titleColor,
-              ),
-              activeIcon: Icon(
-                Icons.calendar_today_rounded,
-                color: Colors.pinkAccent,
-              ),
-              title: Text("Calender"))
         ],
       ),
       body: screens[pageIndex],
