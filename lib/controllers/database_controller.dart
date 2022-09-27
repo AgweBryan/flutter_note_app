@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_note_app/helpers/db_helper.dart';
 import 'package:flutter_note_app/models/category.dart';
 import 'package:flutter_note_app/models/note.dart';

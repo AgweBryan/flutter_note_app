@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_note_app/models/category.dart';
 import 'package:flutter_note_app/models/note.dart';
-import 'package:flutter_note_app/utils/message.dart';
 import 'package:get/get.dart';
 import 'package:sqflite/sqflite.dart';
 
