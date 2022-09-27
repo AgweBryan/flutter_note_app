@@ -11,9 +11,14 @@ class AddNoteController extends GetxController {
   int get isArchived => _isArchived.value;
   int get selectedNoteColor => _selectedNoteColor.value;
 
-  updateIsPinned() => _isPinned.value = _isPinned.value == 0 ? 1 : 0;
-  updateIsFavorite() => _isFavorite.value = _isFavorite.value == 0 ? 1 : 0;
-  updateIsArchived() => _isArchived.value = _isArchived.value == 0 ? 1 : 0;
+  // Get boolean values
+  bool get isPinnedBool => isPinned == 0 ? false : true;
+  bool get isArchivedBool => isArchived == 0 ? false : true;
+  bool get isFavoriteBool => isFavorite == 0 ? false : true;
+
+  updateIsPinned(bool val) => _isPinned.value = val == true ? 1 : 0;
+  updateIsFavorite(bool val) => _isFavorite.value = val == true ? 1 : 0;
+  updateIsArchived(bool val) => _isArchived.value = val == true ? 1 : 0;
   updateSelectedNoteColor(int colorIndex) {
     _selectedNoteColor.value = colorIndex;
   }
